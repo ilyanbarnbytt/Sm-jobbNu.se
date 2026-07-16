@@ -33,7 +33,6 @@
   a{color:inherit;}
   button{font-family:inherit;}
 
-  /* Header */
   header{
     display:flex;
     align-items:center;
@@ -102,7 +101,6 @@
   }
   .dropdown button:hover{background:var(--bg);}
 
-  /* Hero */
   .hero{
     padding:56px 24px 44px;
     max-width:720px;margin:0 auto;text-align:center;
@@ -115,7 +113,6 @@
   .hero p{font-size:1.08rem;color:var(--muted);max-width:520px;margin:0 auto 30px;}
   .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
 
-  /* Board */
   .board-section{padding:8px 20px 60px;}
   .board-inner{max-width:1100px;margin:0 auto;}
   .board-header{
@@ -156,7 +153,6 @@
 
   .empty, .loading{grid-column:1/-1;text-align:center;padding:40px 0;color:var(--muted);}
 
-  /* Modals */
   .modal-overlay{
     display:none;position:fixed;inset:0;background:rgba(18,35,61,0.55);
     align-items:center;justify-content:center;padding:20px;z-index:100;
@@ -239,7 +235,6 @@
 
 <footer>SmåjobbNu.se – en enkel plats för grannhjälp. &copy; 2026</footer>
 
-<!-- AUTH MODAL -->
 <div class="modal-overlay" id="authOverlay">
   <div class="modal">
     <button class="close-btn" onclick="closeModal('authOverlay')">&times;</button>
@@ -268,7 +263,6 @@
   </div>
 </div>
 
-<!-- JOB MODAL -->
 <div class="modal-overlay" id="jobOverlay">
   <div class="modal">
     <button class="close-btn" onclick="closeModal('jobOverlay')">&times;</button>
@@ -295,7 +289,6 @@
   </div>
 </div>
 
-<!-- PROFILE MODAL -->
 <div class="modal-overlay" id="profileOverlay">
   <div class="modal">
     <button class="close-btn" onclick="closeModal('profileOverlay')">&times;</button>
@@ -316,7 +309,6 @@
   </div>
 </div>
 
-<!-- RATING MODAL -->
 <div class="modal-overlay" id="ratingOverlay">
   <div class="modal">
     <button class="close-btn" onclick="closeModal('ratingOverlay')">&times;</button>
@@ -336,14 +328,21 @@
 <script>
   const SUPABASE_URL = "https://mwakafxekblqnqjlsbeh.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_twQfclAmvvdpJkVQYF1anA_SQ_8q2r3";
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  let supabase = null;
+  let initError = null;
+  try {
+    if(!window.supabase) throw new Error('Kunde inte ladda databas-biblioteket (Supabase). Kolla din internetanslutning eller testa ett annat nätverk.');
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } catch(err) {
+    initError = err.message;
+  }
 
   let currentUser = null;
   let currentProfile = null;
   let currentFilter = 'alla';
   let authMode = 'login';
   let selectedStars = 0;
-  let ratingTarget = null; // {annonsId, ratedId}
+  let ratingTarget = null;
 
   function escapeHtml(str){
     const d = document.createElement('div');
@@ -363,7 +362,6 @@
   function openModal(id){ document.getElementById(id).classList.add('open'); }
   function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
-  // ---------- AUTH ----------
   async function refreshSession(){
     const { data:{ session } } = await supabase.auth.getSession();
     currentUser = session ? session.user : null;
@@ -375,14 +373,17 @@
     renderAuthArea();
   }
 
-  supabase.auth.onAuthStateChange((_event, session) => {
-    currentUser = session ? session.user : null;
-    if(currentUser){ loadProfile().then(renderAuthArea); }
-    else { currentProfile = null; renderAuthArea(); }
-  });
+  if(supabase){
+    supabase.auth.onAuthStateChange((_event, session) => {
+      currentUser = session ? session.user : null;
+      if(currentUser){ loadProfile().then(renderAuthArea); }
+      else { currentProfile = null; renderAuthArea(); }
+    });
+  }
 
   function renderAuthArea(){
     const el = document.getElementById('authArea');
+    if(initError){ return; }
     if(!currentUser){
       el.innerHTML = `<button class="btn btn-ghost-dark" onclick="openAuthModal()">Logga in</button>`;
       return;
@@ -423,6 +424,7 @@
   document.getElementById('authForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const msg = document.getElementById('authMsg');
+    if(initError){ msg.textContent = initError; return; }
     const email = document.getElementById('a-email').value.trim();
     const password = document.getElementById('a-password').value;
     msg.textContent = 'Ett ögonblick…';
@@ -448,7 +450,6 @@
     await refreshSession();
   }
 
-  // ---------- PROFILE ----------
   async function loadProfile(){
     if(!currentUser) return;
     const { data, error } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
@@ -496,7 +497,6 @@
     loadJobs();
   }
 
-  // ---------- JOBS ----------
   function openJobModal(typ){
     if(!currentUser){ openAuthModal(); return; }
     document.getElementById('jobMsg').textContent = '';
@@ -512,6 +512,10 @@
 
   async function loadJobs(){
     const board = document.getElementById('board');
+    if(initError){
+      board.innerHTML = `<div class="empty">${initError}</div>`;
+      return;
+    }
     board.innerHTML = '<div class="loading">Laddar annonser…</div>';
     let query = supabase.from('annonser').select('*, profiles(full_name, avatar_url)').order('created_at', { ascending:false });
     if(currentFilter !== 'alla') query = query.eq('typ', currentFilter);
@@ -576,7 +580,6 @@
     setTimeout(() => { closeModal('jobOverlay'); loadJobs(); }, 900);
   });
 
-  // ---------- RATINGS ----------
   function openRatingModal(annonsId, ratedId, posterName){
     ratingTarget = { annonsId, ratedId };
     selectedStars = 0;
@@ -613,8 +616,14 @@
     setTimeout(() => { closeModal('ratingOverlay'); loadJobs(); }, 900);
   }
 
-  // ---------- INIT ----------
-  refreshSession().then(loadJobs);
+  document.getElementById('authArea').innerHTML = `<button class="btn btn-ghost-dark" onclick="openAuthModal()">Logga in</button>`;
+  if(initError){
+    document.getElementById('board').innerHTML = `<div class="empty">${initError}</div>`;
+  } else {
+    refreshSession().catch(()=>{}).then(loadJobs).catch(()=>{
+      document.getElementById('board').innerHTML = '<div class="empty">Kunde inte nå databasen. Kolla din internetanslutning.</div>';
+    });
+  }
 </script>
 </body>
 </html>
