@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#10213b">
+<meta name="description" content="SmåjobbNu hjälper personer som behöver hjälp och personer som söker småjobb att hitta varandra lokalt.">
+<title>SmåjobbNu.se – småjobb och hjälp nära dig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10213b;
+    --navy-2:#172f50;
+    --navy-3:#24476f;
+    --coral:#f36f52;
+    --coral-dark:#dc5739;
+    --coral-soft:#fff0eb;
+    --blue-soft:#eef5ff;
+    --green:#18765a;
+    --green-soft:#e6f5ef;
+    --yellow:#f6b90c;
+    --page:#f5f7fb;
+    --white:#ffffff;
+    --text:#172033;
+    --muted:#657184;
+    --border:#dfe4ec;
+    --shadow:0 18px 50px rgba(16,33,59,.10);
+    --shadow-small:0 8px 25px rgba(16,33,59,.08);
+    --radius:18px;
+    --max:1240px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-padding-top:94px;}
+  body{
+    margin:0;
+    min-width:320px;
+    background:var(--page);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+    overflow-x:hidden;
+  }
+  body.menu-open,body.modal-open{overflow:hidden;}
+  h1,h2,h3,h4,.brand-text{font-family:'Space Grotesk',sans-serif;}
+  h1,h2,h3,h4,p{margin-top:0;}
+  a{color:inherit;}
+  button,input,select,textarea{font:inherit;}
+  button{touch-action:manipulation;}
+  img{max-width:100%;}
+  .container{width:min(var(--max),calc(100% - 40px));margin-inline:auto;}
+  .section{padding:88px 0;}
+  .section-kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-bottom:12px;color:var(--coral-dark);
+    font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  }
+  .section-kicker::before{content:"";width:24px;height:3px;border-radius:99px;background:var(--coral);}
+  .section-title{font-size:clamp(2rem,4vw,3rem);line-height:1.08;letter-spacing:-.035em;color:var(--navy);margin-bottom:14px;}
+  .section-lead{max-width:680px;color:var(--muted);font-size:1.05rem;margin-bottom:0;}
+
+  .btn{
+    min-height:46px;
+    border:0;border-radius:12px;padding:11px 19px;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-weight:800;font-size:.93rem;text-decoration:none;cursor:pointer;
+    transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn:active{transform:translateY(0) scale(.98);}
+  .btn-coral{background:var(--coral);color:#fff;box-shadow:0 8px 20px rgba(243,111,82,.25);}
+  .btn-coral:hover{background:var(--coral-dark);}
+  .btn-navy{background:var(--navy);color:#fff;}
+  .btn-navy:hover{background:var(--navy-2);}
+  .btn-white{background:#fff;color:var(--navy);border:1px solid rgba(16,33,59,.10);}
+  .btn-outline{background:#fff;color:var(--navy);border:2px solid var(--navy);}
+  .btn-soft{background:var(--blue-soft);color:var(--navy);}
+  .btn-block{width:100%;}
+  .icon{width:19px;height:19px;display:inline-block;flex:0 0 auto;}
+  .svg-sprite{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none;}
+  .ui-icon{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
+
+  /* Header */
+  .site-header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(16,33,59,.97);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .header-inner{
+    width:min(1340px,calc(100% - 32px));height:76px;margin:auto;
+    display:flex;align-items:center;gap:28px;
+  }
+  .logo{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0;}
+  .logo-mark{
+    width:42px;height:42px;border-radius:12px;background:var(--coral);
+    display:grid;place-items:center;box-shadow:0 7px 18px rgba(243,111,82,.25);
+  }
+  .brand-text{font-size:1.34rem;font-weight:700;color:#fff;letter-spacing:-.035em;white-space:nowrap;}
+  .brand-text strong{color:var(--coral);}
+  .desktop-nav{display:flex;align-items:center;gap:4px;margin-right:auto;}
+  .desktop-nav a{
+    color:rgba(255,255,255,.82);text-decoration:none;font-weight:700;font-size:.9rem;
+    padding:10px 12px;border-radius:9px;
+  }
+  .desktop-nav a:hover{background:rgba(255,255,255,.09);color:#fff;}
+  .desktop-actions{display:flex;align-items:center;gap:9px;}
+  .desktop-actions .btn{min-height:42px;padding:9px 14px;}
+  .header-login{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.25);}
+  .header-login:hover{background:rgba(255,255,255,.09);}
+  .mobile-account-btn{
+    display:none;min-height:42px;padding:9px 13px;border:1px solid rgba(255,255,255,.24);
+    border-radius:11px;background:transparent;color:#fff;font-weight:800;font-size:.84rem;cursor:pointer;
+    white-space:nowrap;
+  }
+  .mobile-account-btn:hover{background:rgba(255,255,255,.09);}
+  .header-user{
+    display:flex;align-items:center;gap:9px;color:#fff;background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.10);padding:5px 11px 5px 5px;border-radius:999px;
+    font-weight:700;max-width:190px;cursor:pointer;
+  }
+  .header-user span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .avatar-circle{
+    width:30px;height:30px;border-radius:50%;background:var(--coral);color:#fff;
+    display:grid;place-items:center;font-size:.75rem;font-weight:800;overflow:hidden;flex:0 0 auto;
+  }
+  .avatar-circle img{width:100%;height:100%;object-fit:cover;}
+  .menu-toggle{
+    display:none;width:46px;height:46px;border:1px solid rgba(255,255,255,.14);border-radius:12px;
+    background:rgba(255,255,255,.09);padding:0;cursor:pointer;position:relative;z-index:131;
+  }
+  .menu-toggle span{
+    position:absolute;left:12px;width:21px;height:2.5px;border-radius:999px;background:#fff;
+    transition:transform .2s ease,opacity .2s ease,top .2s ease;
+  }
+  .menu-toggle span:nth-child(1){top:14px;}
+  .menu-toggle span:nth-child(2){top:21px;}
+  .menu-toggle span:nth-child(3){top:28px;}
+  .menu-toggle.active span:nth-child(1){top:21px;transform:rotate(45deg);}
+  .menu-toggle.active span:nth-child(2){opacity:0;}
+  .menu-toggle.active span:nth-child(3){top:21px;transform:rotate(-45deg);}
+
+  /* Mobile drawer */
+  .menu-backdrop{
+    position:fixed;inset:0;z-index:119;background:rgba(4,14,29,.58);opacity:0;visibility:hidden;
+    transition:opacity .22s ease,visibility .22s ease;
+  }
+  .menu-backdrop.open{opacity:1;visibility:visible;}
+  .mobile-menu{
+    position:fixed;z-index:120;top:0;right:0;width:min(390px,90vw);height:100dvh;
+    background:#fff;transform:translateX(105%);transition:transform .25s ease;
+    box-shadow:-24px 0 65px rgba(4,14,29,.28);display:flex;flex-direction:column;
+  }
+  .mobile-menu.open{transform:translateX(0);}
+  .mobile-menu-head{
+    min-height:76px;padding:14px 20px;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+  }
+  .mobile-brand{font-family:'Space Grotesk';font-size:1.15rem;font-weight:700;color:var(--navy);}
+  .mobile-brand strong{color:var(--coral);}
+  .menu-close{
+    width:42px;height:42px;border-radius:11px;border:1px solid var(--border);background:#fff;
+    color:var(--navy);font-size:1.5rem;cursor:pointer;
+  }
+  .mobile-menu-body{padding:18px;overflow:auto;display:flex;flex-direction:column;gap:8px;}
+  .mobile-menu a,.mobile-menu .menu-link{
+    width:100%;min-height:50px;padding:12px 14px;border:0;border-radius:11px;background:transparent;
+    display:flex;align-items:center;gap:12px;color:var(--navy);text-decoration:none;text-align:left;
+    font-weight:800;cursor:pointer;
+  }
+  .mobile-menu a:hover,.mobile-menu .menu-link:hover{background:#f2f5f9;}
+  .menu-icon-box{width:34px;height:34px;border-radius:9px;background:var(--blue-soft);display:grid;place-items:center;color:var(--navy);flex:0 0 auto;}
+  .menu-icon-box .ui-icon{width:18px;height:18px;}
+  .menu-divider{height:1px;background:var(--border);margin:10px 0;}
+  .menu-auth{display:grid;gap:10px;}
+  .menu-user-info{background:var(--page);border-radius:12px;padding:13px;color:var(--muted);font-size:.84rem;overflow-wrap:anywhere;}
+  .menu-user-info strong{color:var(--navy);}
+  .menu-contact{margin-top:auto;padding:18px;border-top:1px solid var(--border);color:var(--muted);font-size:.86rem;}
+  .menu-contact a{color:var(--coral-dark);font-weight:800;}
+
+  /* Hero */
+  .hero{
+    position:relative;overflow:hidden;background:
+      radial-gradient(circle at 80% 10%,rgba(243,111,82,.16),transparent 30%),
+      linear-gradient(135deg,#edf4ff 0%,#ffffff 56%,#fff4ef 100%);
+    border-bottom:1px solid var(--border);
+  }
+  .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none;}
+  .hero::before{width:360px;height:360px;right:-190px;bottom:-180px;background:rgba(16,33,59,.05);}
+  .hero::after{width:220px;height:220px;left:-120px;top:90px;background:rgba(243,111,82,.07);}
+  .hero-inner{
+    position:relative;z-index:1;min-height:650px;padding:82px 0 70px;
+    display:grid;grid-template-columns:minmax(0,1.05fr) minmax(390px,.75fr);gap:64px;align-items:center;
+  }
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;
+    background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-small);
+    color:var(--navy);font-size:.82rem;font-weight:800;margin-bottom:20px;
+  }
+  .hero-badge-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px var(--green-soft);}
+  .hero h1{
+    max-width:760px;font-size:clamp(3rem,6vw,5rem);line-height:.98;letter-spacing:-.06em;
+    margin-bottom:24px;color:var(--navy);
+  }
+  .hero h1 .accent{color:var(--coral);}
+  .hero-copy{max-width:670px;color:var(--muted);font-size:clamp(1.05rem,2vw,1.22rem);margin-bottom:30px;}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px;}
+  .hero-actions .btn{min-height:52px;padding:13px 22px;font-size:1rem;}
+  .hero-points{display:flex;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:.88rem;font-weight:700;}
+  .hero-point{display:flex;align-items:center;gap:7px;}
+  .check-dot{width:22px;height:22px;border-radius:50%;background:var(--green-soft);color:var(--green);display:grid;place-items:center;flex:0 0 auto;}
+  .check-dot .ui-icon{width:13px;height:13px;stroke-width:2.8;}
+
+  .hero-panel{
+    background:#fff;border:1px solid rgba(16,33,59,.09);border-radius:24px;padding:26px;
+    box-shadow:0 28px 70px rgba(16,33,59,.16);position:relative;
+  }
+  .hero-panel::before{
+    content:"";position:absolute;inset:12px -13px -13px 12px;border-radius:24px;
+    background:var(--navy);z-index:-1;opacity:.08;
+  }
+  .hero-panel h2{font-size:1.45rem;color:var(--navy);margin-bottom:6px;}
+  .hero-panel>p{color:var(--muted);font-size:.92rem;margin-bottom:20px;}
+  .quick-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+  .choice-card{
+    border:1.5px solid var(--border);background:#fff;border-radius:14px;padding:16px;text-align:left;cursor:pointer;
+    transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease;
+  }
+  .choice-card:hover{border-color:var(--coral);transform:translateY(-2px);box-shadow:var(--shadow-small);}
+  .choice-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;margin-bottom:12px;color:var(--navy);}
+  .choice-icon .ui-icon{width:22px;height:22px;}
+  .choice-card:first-child .choice-icon{background:var(--coral-soft);}
+  .choice-card:last-child .choice-icon{background:var(--green-soft);}
+  .choice-card strong{display:block;color:var(--navy);font-size:.94rem;margin-bottom:3px;}
+  .choice-card span{display:block;color:var(--muted);font-size:.79rem;line-height:1.35;}
+  .panel-feature{display:flex;gap:12px;padding:13px 0;border-top:1px solid var(--border);}
+  .panel-feature:first-of-type{border-top:0;}
+  .feature-icon{width:35px;height:35px;border-radius:10px;background:var(--blue-soft);display:grid;place-items:center;color:var(--navy);flex:0 0 auto;}
+  .feature-icon .ui-icon{width:18px;height:18px;}
+  .panel-feature strong{display:block;color:var(--navy);font-size:.88rem;}
+  .panel-feature span{display:block;color:var(--muted);font-size:.78rem;}
+
+  /* Search */
+  .search-wrap{position:relative;z-index:5;margin-top:-35px;}
+  .search-panel{
+    background:#fff;border:1px solid var(--border);border-radius:18px;padding:16px;
+    display:grid;grid-template-columns:minmax(250px,1.5fr) minmax(190px,.8fr) auto;gap:10px;
+    box-shadow:var(--shadow);
+  }
+  .search-field{position:relative;}
+  .search-field svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+  .search-field input{
+    width:100%;height:54px;border:1.5px solid var(--border);border-radius:12px;padding:0 15px 0 44px;
+    color:var(--text);background:#fff;outline:none;font-size:.96rem;
+  }
+  .search-field input:focus{border-color:var(--navy-3);box-shadow:0 0 0 4px rgba(36,71,111,.08);}
+  .search-panel .btn{height:54px;min-width:150px;}
+  .search-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px;color:var(--muted);font-size:.85rem;}
+  .clear-search{border:0;background:transparent;color:var(--coral-dark);font-weight:800;cursor:pointer;padding:5px;display:none;}
+  .clear-search.visible{display:inline-block;}
+
+  /* Trust strip */
+  .trust-strip{padding:38px 0 16px;}
+  .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .trust-item{display:flex;align-items:center;gap:13px;padding:18px 20px;border-radius:15px;background:#fff;border:1px solid var(--border);}
+  .trust-icon{width:43px;height:43px;border-radius:12px;background:var(--blue-soft);color:var(--navy);display:grid;place-items:center;flex:0 0 auto;}
+  .trust-icon .ui-icon{width:21px;height:21px;}
+  .trust-item strong{display:block;color:var(--navy);font-size:.93rem;}
+  .trust-item span{display:block;color:var(--muted);font-size:.8rem;}
+
+  /* Categories */
+  .category-section{padding:68px 0 40px;}
+  .category-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:28px;}
+  .category-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+  .category-card{
+    min-height:158px;border:1px solid var(--border);background:#fff;border-radius:17px;padding:19px;
+    display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;
+    cursor:pointer;box-shadow:0 3px 13px rgba(16,33,59,.04);
+    transition:transform .17s ease,border-color .17s ease,box-shadow .17s ease;
+  }
+  .category-card:hover{transform:translateY(-4px);border-color:rgba(243,111,82,.6);box-shadow:var(--shadow-small);}
+  .category-icon{width:48px;height:48px;border-radius:14px;background:var(--coral-soft);display:grid;place-items:center;color:var(--coral-dark);}
+  .category-icon .ui-icon{width:24px;height:24px;}
+  .category-card:nth-child(even) .category-icon{background:var(--blue-soft);color:var(--navy);}
+  .category-card strong{color:var(--navy);font-size:.93rem;}
+  .category-card span{color:var(--muted);font-size:.75rem;}
+
+  /* Job board */
+  .jobs-section{padding:75px 0 94px;}
+  .jobs-shell{display:grid;grid-template-columns:270px minmax(0,1fr);gap:24px;align-items:start;}
+  .jobs-sidebar{position:sticky;top:100px;display:grid;gap:16px;}
+  .side-card{background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px;box-shadow:0 5px 18px rgba(16,33,59,.04);}
+  .side-card h3{font-size:1.05rem;color:var(--navy);margin-bottom:7px;}
+  .side-card p{font-size:.84rem;color:var(--muted);margin-bottom:15px;}
+  .side-filter{display:grid;gap:8px;}
+  .filter-btn{
+    min-height:43px;border:1px solid var(--border);border-radius:11px;background:#fff;color:var(--muted);
+    padding:10px 12px;text-align:left;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  }
+  .filter-btn:hover{border-color:var(--navy-3);color:var(--navy);}
+  .filter-btn.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .filter-count{font-size:.72rem;opacity:.75;}
+  .safety-mini{background:linear-gradient(145deg,var(--navy),var(--navy-2));color:#fff;border:0;}
+  .safety-mini h3{color:#fff;}
+  .safety-mini p{color:rgba(255,255,255,.72);}
+  .safety-mini a{font-size:.84rem;color:#fff;font-weight:800;}
+
+  .jobs-main{min-width:0;}
+  .jobs-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:20px;}
+  .jobs-head h2{font-size:clamp(1.8rem,3.5vw,2.5rem);color:var(--navy);margin-bottom:5px;letter-spacing:-.035em;}
+  .jobs-head p{color:var(--muted);margin:0;font-size:.92rem;}
+  .mobile-filters{display:none;gap:8px;overflow:auto;padding-bottom:5px;margin-bottom:16px;scrollbar-width:none;}
+  .mobile-filters::-webkit-scrollbar{display:none;}
+  .mobile-filters .filter-btn{white-space:nowrap;min-height:40px;padding:8px 14px;text-align:center;}
+  .board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+  .job-card{
+    background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px;
+    box-shadow:0 4px 16px rgba(16,33,59,.045);display:flex;flex-direction:column;gap:13px;
+    min-height:280px;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+  }
+  .job-card:hover{transform:translateY(-3px);border-color:#c8d2e1;box-shadow:var(--shadow-small);}
+  .job-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .tag{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;font-size:.68rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;}
+  .tag.erbjuder{background:var(--coral-soft);color:var(--coral-dark);}
+  .tag.soker{background:var(--green-soft);color:var(--green);}
+  .job-date{color:var(--muted);font-size:.75rem;white-space:nowrap;}
+  .job-card h3{font-size:1.13rem;line-height:1.25;color:var(--navy);margin:0;}
+  .job-category{color:var(--coral-dark);font-size:.77rem;font-weight:800;}
+  .job-description{color:var(--muted);font-size:.88rem;margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+  .job-meta{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.79rem;}
+  .job-meta span{display:flex;align-items:center;gap:5px;}
+  .job-bottom{margin-top:auto;padding-top:13px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .poster-info{min-width:0;display:flex;align-items:center;gap:8px;}
+  .poster-text{min-width:0;}
+  .poster-name{display:block;color:var(--text);font-size:.79rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:145px;}
+  .stars{display:block;color:var(--muted);font-size:.72rem;font-weight:700;white-space:nowrap;}
+  .job-actions{display:flex;align-items:center;gap:7px;}
+  .details-btn,.rate-link{border:0;background:transparent;padding:6px;color:var(--navy);font-weight:800;font-size:.78rem;cursor:pointer;}
+  .details-btn{color:var(--coral-dark);}
+  .rate-link{color:var(--navy-3);}
+  .empty,.loading{grid-column:1/-1;background:#fff;border:1px dashed #cbd3df;border-radius:16px;text-align:center;padding:52px 20px;color:var(--muted);}
+  .empty strong{display:block;color:var(--navy);font-size:1.05rem;margin-bottom:5px;}
+
+  /* How it works */
+  .how-section{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .how-head{text-align:center;max-width:700px;margin:0 auto 42px;}
+  .how-head .section-lead{margin-inline:auto;}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .step-card{position:relative;border:1px solid var(--border);border-radius:20px;padding:27px;background:var(--page);}
+  .step-number{width:44px;height:44px;border-radius:13px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:'Space Grotesk';font-weight:700;margin-bottom:20px;}
+  .step-card h3{font-size:1.17rem;color:var(--navy);margin-bottom:8px;}
+  .step-card p{color:var(--muted);font-size:.9rem;margin-bottom:0;}
+  .step-card:not(:last-child)::after{content:"→";position:absolute;right:-18px;top:43%;z-index:2;color:var(--coral);font-size:1.35rem;font-weight:900;}
+
+  /* Audience */
+  .audience-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .audience-card{border-radius:23px;padding:38px;min-height:330px;position:relative;overflow:hidden;}
+  .audience-card:first-child{background:linear-gradient(145deg,#fff0eb,#fff);border:1px solid #f8d6ca;}
+  .audience-card:last-child{background:linear-gradient(145deg,#eaf3ff,#fff);border:1px solid #cfdeef;}
+  .audience-card::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-65px;bottom:-70px;background:rgba(16,33,59,.06);}
+  .audience-icon{width:58px;height:58px;border-radius:17px;background:#fff;display:grid;place-items:center;color:var(--navy);box-shadow:var(--shadow-small);margin-bottom:24px;}
+  .audience-icon .ui-icon{width:28px;height:28px;}
+  .audience-card h3{font-size:1.6rem;color:var(--navy);margin-bottom:10px;}
+  .audience-card p{max-width:500px;color:var(--muted);margin-bottom:20px;}
+  .audience-list{display:grid;gap:9px;margin-bottom:24px;}
+  .audience-list span{display:flex;gap:8px;align-items:flex-start;color:var(--text);font-size:.88rem;font-weight:600;}
+  .audience-list span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--coral);margin-top:.46em;flex:0 0 auto;}
+
+  /* About and safety */
+  .about-section{background:var(--navy);color:#fff;position:relative;overflow:hidden;}
+  .about-section::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;left:-210px;bottom:-230px;background:rgba(243,111,82,.12);}
+  .about-grid{position:relative;display:grid;grid-template-columns:1fr .8fr;gap:70px;align-items:center;}
+  .about-section .section-kicker{color:#ffb09e;}
+  .about-section .section-title{color:#fff;}
+  .about-section .section-lead,.about-copy p{color:rgba(255,255,255,.72);}
+  .about-copy p{font-size:.96rem;}
+  .about-values{display:grid;gap:13px;}
+  .value-card{display:flex;gap:14px;padding:18px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:rgba(255,255,255,.07);}
+  .value-icon{width:42px;height:42px;border-radius:12px;background:rgba(243,111,82,.19);display:grid;place-items:center;color:#ffb09e;flex:0 0 auto;}
+  .value-icon .ui-icon{width:21px;height:21px;}
+  .value-card strong{display:block;color:#fff;margin-bottom:3px;}
+  .value-card span{display:block;color:rgba(255,255,255,.68);font-size:.82rem;}
+
+  .safety-section{padding:75px 0;}
+  .safety-box{background:#fff;border:1px solid var(--border);border-radius:24px;padding:38px;display:grid;grid-template-columns:.7fr 1fr;gap:45px;align-items:center;box-shadow:var(--shadow-small);}
+  .safety-visual{min-height:260px;border-radius:20px;background:linear-gradient(145deg,var(--blue-soft),var(--coral-soft));display:grid;place-items:center;position:relative;overflow:hidden;}
+  .shield{width:118px;height:132px;background:var(--navy);clip-path:polygon(50% 0,92% 16%,87% 72%,50% 100%,13% 72%,8% 16%);display:grid;place-items:center;color:#fff;filter:drop-shadow(0 16px 16px rgba(16,33,59,.22));}
+  .shield .ui-icon{width:44px;height:44px;stroke-width:1.8;}
+  .safety-content h2{font-size:clamp(1.8rem,3vw,2.5rem);color:var(--navy);margin-bottom:12px;}
+  .safety-content>p{color:var(--muted);}
+  .safety-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:21px;}
+  .safety-list div{display:flex;gap:9px;align-items:flex-start;background:var(--page);border-radius:12px;padding:12px;color:var(--text);font-size:.84rem;font-weight:600;}
+
+  /* CTA/footer */
+  .final-cta{padding:0 0 84px;}
+  .cta-box{background:linear-gradient(135deg,var(--coral),#f58b72);border-radius:26px;padding:48px;display:flex;align-items:center;justify-content:space-between;gap:35px;color:#fff;box-shadow:0 20px 50px rgba(243,111,82,.25);}
+  .cta-box h2{font-size:clamp(2rem,4vw,3rem);line-height:1.05;margin-bottom:10px;}
+  .cta-box p{color:rgba(255,255,255,.84);margin-bottom:0;max-width:630px;}
+  .cta-box .btn{flex:0 0 auto;min-height:54px;padding-inline:25px;}
+
+  footer{background:#09182d;color:rgba(255,255,255,.66);padding:62px 0 24px;}
+  .footer-grid{display:grid;grid-template-columns:1.3fr repeat(3,.7fr);gap:45px;margin-bottom:45px;}
+  .footer-brand p{max-width:380px;font-size:.87rem;margin:15px 0 20px;}
+  .footer-logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;}
+  .footer-logo .logo-mark{width:38px;height:38px;}
+  .footer-col h3{font-family:'Inter';font-size:.83rem;color:#fff;text-transform:uppercase;letter-spacing:.08em;margin-bottom:15px;}
+  .footer-col a{display:block;color:rgba(255,255,255,.66);font-size:.87rem;text-decoration:none;margin:9px 0;}
+  .footer-col a:hover{color:#fff;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.10);padding-top:20px;display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:.78rem;}
+
+  /* Modals */
+  .modal-overlay{
+    display:flex;position:fixed;inset:0;z-index:200;background:rgba(5,16,32,.68);
+    align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease;
+  }
+  .modal-overlay.open{opacity:1;visibility:visible;}
+  .modal{
+    background:#fff;border-radius:20px;width:min(460px,100%);padding:29px;max-height:92dvh;overflow:auto;
+    position:relative;box-shadow:0 28px 80px rgba(0,0,0,.28);transform:translateY(12px) scale(.98);transition:transform .18s ease;
+  }
+  .modal-overlay.open .modal{transform:translateY(0) scale(1);}
+  .modal-wide{width:min(720px,100%);}
+  .modal h2{font-size:1.55rem;color:var(--navy);margin:0 42px 5px 0;}
+  .modal .sub{font-size:.88rem;color:var(--muted);margin-bottom:20px;}
+  .modal label{display:block;font-weight:800;font-size:.79rem;margin:14px 0 6px;color:var(--text);}
+  .modal input,.modal select,.modal textarea{
+    width:100%;border:1.5px solid var(--border);border-radius:11px;padding:11px 13px;background:#fff;
+    color:var(--text);outline:none;
+  }
+  .modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--navy-3);box-shadow:0 0 0 4px rgba(36,71,111,.08);}
+  .modal textarea{resize:vertical;min-height:90px;}
+  .close-btn{position:absolute;top:17px;right:17px;width:39px;height:39px;border-radius:10px;border:1px solid var(--border);background:#fff;color:var(--navy);font-size:1.35rem;cursor:pointer;}
+  .form-msg{font-size:.83rem;margin-top:11px;color:var(--muted);min-height:1.2em;}
+  .divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:var(--muted);font-size:.76rem;}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--border);}
+  .auth-tabs{display:flex;gap:8px;margin-bottom:14px;}
+  .auth-tab{flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:#fff;font-weight:800;font-size:.85rem;cursor:pointer;color:var(--muted);}
+  .auth-tab.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .avatar-upload{display:flex;align-items:center;gap:15px;margin:8px 0 16px;}
+  .avatar-large{width:70px;height:70px;border-radius:50%;background:var(--coral);display:grid;place-items:center;color:#fff;font-weight:800;font-size:1.45rem;overflow:hidden;flex:0 0 auto;}
+  .avatar-large img{width:100%;height:100%;object-fit:cover;}
+  .profile-rating{font-size:.84rem;color:var(--muted);margin-top:7px;}
+  .star-picker{display:flex;gap:8px;margin:7px 0 12px;}
+  .star-picker span{width:42px;height:42px;border:1.5px solid var(--border);border-radius:11px;background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--muted);font-weight:800;transition:.15s ease;}
+  .star-picker span:hover{border-color:var(--navy-3);color:var(--navy);}
+  .star-picker span.filled{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+  .detail-box{background:var(--page);border-radius:12px;padding:13px;}
+  .detail-box span{display:block;color:var(--muted);font-size:.72rem;font-weight:700;margin-bottom:3px;}
+  .detail-box strong{color:var(--navy);font-size:.88rem;overflow-wrap:anywhere;}
+  .detail-description{color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;}
+  .contact-box{margin-top:18px;padding:17px;border-radius:14px;background:var(--coral-soft);border:1px solid #fad3c7;}
+  .contact-box h3{font-size:.96rem;color:var(--navy);margin-bottom:6px;}
+  .contact-value{font-weight:800;color:var(--coral-dark);overflow-wrap:anywhere;}
+  .modal-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+
+  @media (max-width:1120px){
+    .desktop-nav{display:none;}
+    .menu-toggle{display:block;}
+    .header-inner{gap:12px;}
+    .desktop-actions{margin-left:auto;}
+    .category-grid{grid-template-columns:repeat(3,1fr);}
+    .hero-inner{grid-template-columns:1fr .72fr;gap:35px;}
+    .jobs-shell{grid-template-columns:235px minmax(0,1fr);}
+  }
+
+  @media (max-width:900px){
+    .container{width:min(var(--max),calc(100% - 30px));}
+    .section{padding:70px 0;}
+    .desktop-actions{display:none;}
+    .mobile-account-btn{display:inline-flex;align-items:center;justify-content:center;margin-left:auto;}
+    .menu-toggle{display:block;margin-left:0;}
+    .hero-inner{min-height:auto;grid-template-columns:1fr;padding:65px 0 90px;gap:38px;}
+    .hero-copy-block{text-align:center;}
+    .hero h1{max-width:760px;margin-inline:auto;}
+    .hero-copy{margin-inline:auto;}
+    .hero-actions,.hero-points{justify-content:center;}
+    .hero-panel{max-width:620px;width:100%;margin-inline:auto;}
+    .search-panel{grid-template-columns:1fr 1fr;}
+    .search-panel .btn{grid-column:1/-1;}
+    .trust-grid{grid-template-columns:1fr;}
+    .jobs-shell{grid-template-columns:1fr;}
+    .jobs-sidebar{display:none;}
+    .mobile-filters{display:flex;}
+    .about-grid{grid-template-columns:1fr;gap:40px;}
+    .safety-box{grid-template-columns:1fr;}
+    .safety-visual{min-height:220px;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .cta-box{align-items:flex-start;flex-direction:column;}
+  }
+
+  @media (max-width:640px){
+    .container{width:calc(100% - 24px);}
+    .header-inner{height:68px;width:calc(100% - 24px);}
+    .logo-mark{width:37px;height:37px;border-radius:10px;}
+    .brand-text{font-size:1.05rem;}
+    .brand-text .domain{display:none;}
+    .mobile-account-btn{min-height:40px;padding:8px 10px;font-size:.78rem;}
+    .menu-toggle{width:43px;height:43px;}
+    .menu-toggle span{left:11px;}
+    .hero-inner{padding:48px 0 72px;}
+    .hero h1{font-size:clamp(2.55rem,12vw,3.7rem);}
+    .hero-copy{font-size:1rem;}
+    .hero-actions{display:grid;grid-template-columns:1fr;width:100%;}
+    .hero-actions .btn{width:100%;}
+    .hero-points{display:grid;grid-template-columns:1fr 1fr;text-align:left;gap:10px;}
+    .hero-panel{padding:19px;border-radius:19px;}
+    .quick-choice{grid-template-columns:1fr;}
+    .search-wrap{margin-top:-28px;}
+    .search-panel{grid-template-columns:1fr;padding:12px;}
+    .search-panel .btn{grid-column:auto;}
+    .search-meta{align-items:flex-start;flex-direction:column;}
+    .trust-strip{padding-top:26px;}
+    .trust-item{padding:14px;}
+    .category-section{padding-top:55px;}
+    .category-head{align-items:flex-start;flex-direction:column;}
+    .category-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+    .category-card{min-height:136px;padding:15px;}
+    .board{grid-template-columns:1fr;}
+    .job-card{min-height:260px;padding:18px;}
+    .jobs-head{align-items:flex-start;flex-direction:column;}
+    .steps{grid-template-columns:1fr;}
+    .step-card:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-20px;}
+    .audience-grid{grid-template-columns:1fr;}
+    .audience-card{padding:27px;min-height:0;}
+    .safety-box{padding:24px;gap:26px;}
+    .safety-list{grid-template-columns:1fr;}
+    .cta-box{padding:31px 24px;border-radius:20px;}
+    .footer-grid{grid-template-columns:1fr;gap:28px;}
+    .footer-bottom{align-items:flex-start;flex-direction:column;}
+    .modal{padding:24px 18px;border-radius:18px;}
+    .detail-grid{grid-template-columns:1fr;}
+  }
+
+  @media (max-width:390px){
+    .hero-points{grid-template-columns:1fr;}
+    .category-grid{grid-template-columns:1fr 1fr;}
+    .category-card strong{font-size:.84rem;}
+    .job-bottom{align-items:flex-start;}
+    .job-actions{flex-direction:column;align-items:flex-end;}
+  }
+</style>
+</head>
+<body id="top" data-build="2026-07-16-login-fix-v3">
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="#top" aria-label="SmåjobbNu startsida">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="white"/></svg>
+      </span>
+      <span class="brand-text">Småjobb<strong>Nu</strong><span class="domain">.se</span></span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Huvudnavigation">
+      <a href="#annonser">Hitta annonser</a>
+      <a href="#kategorier">Kategorier</a>
+      <a href="#sa-fungerar-det">Så fungerar det</a>
+      <a href="#om">Om oss</a>
+      <a href="#sakerhet">Säkerhet</a>
+    </nav>
+
+    <div class="desktop-actions" id="desktopAuthArea">
+      <button class="btn header-login" type="button" onclick="openAuthModal('login')">Logga in</button>
+      <button class="btn btn-coral" type="button" onclick="openJobModal()">+ Lägg upp annons</button>
+    </div>
+
+    <button class="mobile-account-btn" id="mobileAccountButton" type="button" onclick="openAuthModal('login')">Logga in</button>
+
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+<aside class="mobile-menu" id="mobileMenu" aria-hidden="true" aria-label="Mobilmeny">
+  <div class="mobile-menu-head">
+    <div class="mobile-brand">Småjobb<strong>Nu</strong>.se</div>
+    <button class="menu-close" id="menuClose" type="button" aria-label="Stäng meny">&times;</button>
+  </div>
+  <div class="mobile-menu-body">
+    <a href="#annonser" data-menu-close><span class="menu-icon-box"><svg class="ui-icon" aria-hidden="true"><use href="#icon-search"></use></svg></span>Hitta annonser</a>
+    <a href="#kategorier" data-menu-close><span class="menu-icon-box"><svg class="ui-icon" aria-hidden="true"><use href="#icon-grid"></use></svg></span>Kategorier</a>
+    <a href="#sa-fungerar-det" data-menu-close><span class="menu-icon-box"><svg class="ui-icon" aria-hidden="true"><use href="#icon-list"></use></svg></span>Så fungerar det</a>
+    <a href="#om" data-menu-close><span class="menu-icon-box"><svg class="ui-icon" aria-hidden="true"><use href="#icon-info"></use></svg></span>Om SmåjobbNu</a>
+    <a href="#sakerhet" data-menu-close><span class="menu-icon-box"><svg class="ui-icon" aria-hidden="true"><use href="#icon-shield"></use></svg></span>Säkerhet</a>
+    <a href="mailto:SmåJobbNu@gmail.com"><span class="menu-icon-box"><svg class="ui-icon" aria-hidden="true"><use href="#icon-mail"></use></svg></span>Kontakta oss</a>
+    <div class="menu-divider"></div>
+    <button class="menu-link" type="button" onclick="openJobModal()"><span class="menu-icon-box"><svg class="ui-icon" aria-hidden="true"><use href="#icon-plus"></use></svg></span>Lägg upp en annons</button>
+    <div class="menu-divider"></div>
+    <div class="menu-auth" id="menuAuthArea">
+      <button class="btn btn-navy" type="button" onclick="openAuthModal('login')">Logga in</button>
+      <button class="btn btn-coral" type="button" onclick="openAuthModal('signup')">Skapa konto</button>
+    </div>
+  </div>
+  <div class="menu-contact">Frågor eller problem?<br><a href="mailto:SmåJobbNu@gmail.com">SmåJobbNu@gmail.com</a></div>
+</aside>
+
+<main>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy-block">
+        <div class="hero-badge"><span class="hero-badge-dot"></span>Småjobb och hjälp i ditt närområde</div>
+        <h1>Hitta rätt person för <span class="accent">småjobb nära dig.</span></h1>
+        <p class="hero-copy">SmåjobbNu är mötesplatsen för dig som behöver hjälp och dig som vill tjäna extra, bygga erfarenhet eller hjälpa någon i närheten.</p>
+        <div class="hero-actions">
+          <button class="btn btn-coral" type="button" onclick="openJobModal('erbjuder')">Jag behöver hjälp</button>
+          <button class="btn btn-outline" type="button" onclick="openJobModal('soker')">Jag söker småjobb</button>
+        </div>
+        <div class="hero-points">
+          <span class="hero-point"><span class="check-dot"><svg class="ui-icon" aria-hidden="true"><use href="#icon-check"></use></svg></span>Lokala annonser</span>
+          <span class="hero-point"><span class="check-dot"><svg class="ui-icon" aria-hidden="true"><use href="#icon-check"></use></svg></span>Profiler och betyg</span>
+          <span class="hero-point"><span class="check-dot"><svg class="ui-icon" aria-hidden="true"><use href="#icon-check"></use></svg></span>Enkelt att komma igång</span>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <h2>Vad vill du göra?</h2>
+        <p>Välj det som passar dig och publicera på några minuter.</p>
+        <div class="quick-choice">
+          <button class="choice-card" type="button" onclick="openJobModal('erbjuder')">
+            <span class="choice-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-briefcase"></use></svg></span>
+            <strong>Jag behöver hjälp</strong>
+            <span>Beskriv uppgiften och hitta någon i närheten.</span>
+          </button>
+          <button class="choice-card" type="button" onclick="openJobModal('soker')">
+            <span class="choice-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-user"></use></svg></span>
+            <strong>Jag söker jobb</strong>
+            <span>Berätta vad du kan hjälpa till med.</span>
+          </button>
+        </div>
+        <div class="panel-feature">
+          <span class="feature-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-pin"></use></svg></span>
+          <div><strong>Fokuserat på närområdet</strong><span>Sök efter plats och hitta relevanta annonser.</span></div>
+        </div>
+        <div class="panel-feature">
+          <span class="feature-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-star"></use></svg></span>
+          <div><strong>Bygg förtroende</strong><span>Profiler och omdömen hjälper användare att välja.</span></div>
+        </div>
+        <div class="panel-feature">
+          <span class="feature-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-message"></use></svg></span>
+          <div><strong>Ta kontakt direkt</strong><span>Logga in och se kontaktuppgifterna i annonsen.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="search-wrap" id="annonser">
+    <div class="container">
+      <form class="search-panel" id="searchForm">
+        <div class="search-field">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m16.5 16.5 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="searchText" type="search" placeholder="Vad söker du? T.ex. hundrastning" autocomplete="off">
+        </div>
+        <div class="search-field">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
+          <input id="searchLocation" type="search" placeholder="Plats eller stad" autocomplete="off">
+        </div>
+        <button class="btn btn-navy" type="submit">Sök annonser</button>
+      </form>
+      <div class="search-meta">
+        <span id="searchStatus">Visar de senaste annonserna.</span>
+        <button class="clear-search" id="clearSearch" type="button" onclick="clearSearch()">Rensa sökning</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="trust-strip">
+    <div class="container trust-grid">
+      <div class="trust-item"><span class="trust-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-pin"></use></svg></span><div><strong>Nära dig</strong><span>Hitta personer och uppgifter i ditt område.</span></div></div>
+      <div class="trust-item"><span class="trust-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-user"></use></svg></span><div><strong>Tydliga profiler</strong><span>Se namn, profilbild och omdömen.</span></div></div>
+      <div class="trust-item"><span class="trust-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-bolt"></use></svg></span><div><strong>Snabb publicering</strong><span>Skapa konto och lägg upp en annons direkt.</span></div></div>
+    </div>
+  </section>
+
+  <section class="category-section" id="kategorier">
+    <div class="container">
+      <div class="category-head">
+        <div>
+          <span class="section-kicker">Populära kategorier</span>
+          <h2 class="section-title">Vad behöver du hjälp med?</h2>
+          <p class="section-lead">Välj en kategori för att söka bland annonserna.</p>
+        </div>
+      </div>
+      <div class="category-grid">
+        <button class="category-card" type="button" onclick="setCategory('Trädgård')"><span class="category-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-leaf"></use></svg></span><div><strong>Trädgård</strong><span>Klippning, målning, löv</span></div></button>
+        <button class="category-card" type="button" onclick="setCategory('Hund')"><span class="category-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-paw"></use></svg></span><div><strong>Djur & hund</strong><span>Rastning och passning</span></div></button>
+        <button class="category-card" type="button" onclick="setCategory('Barnpassning')"><span class="category-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-heart"></use></svg></span><div><strong>Barnpassning</strong><span>Hjälp några timmar</span></div></button>
+        <button class="category-card" type="button" onclick="setCategory('Städ')"><span class="category-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-sparkles"></use></svg></span><div><strong>Städning</strong><span>Hem, garage och förråd</span></div></button>
+        <button class="category-card" type="button" onclick="setCategory('Flytt')"><span class="category-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-box"></use></svg></span><div><strong>Flytthjälp</strong><span>Bära, packa och köra</span></div></button>
+        <button class="category-card" type="button" onclick="setCategory('Teknik')"><span class="category-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-monitor"></use></svg></span><div><strong>Teknikhjälp</strong><span>Mobil, dator och internet</span></div></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="jobs-section">
+    <div class="container jobs-shell">
+      <aside class="jobs-sidebar" aria-label="Annonsfilter">
+        <div class="side-card">
+          <h3>Filtrera annonser</h3>
+          <p>Välj vilken typ av annons du vill se.</p>
+          <div class="side-filter">
+            <button class="filter-btn active" data-filter="alla" type="button" onclick="setFilter('alla')"><span>Alla annonser</span><span class="filter-count" id="countAll">0</span></button>
+            <button class="filter-btn" data-filter="erbjuder" type="button" onclick="setFilter('erbjuder')"><span>Behöver hjälp</span><span class="filter-count" id="countHelp">0</span></button>
+            <button class="filter-btn" data-filter="soker" type="button" onclick="setFilter('soker')"><span>Söker jobb</span><span class="filter-count" id="countWork">0</span></button>
+          </div>
+        </div>
+        <div class="side-card">
+          <h3>Lägg upp gratis</h3>
+          <p>Skapa en tydlig annons så att rätt person kan hitta dig.</p>
+          <button class="btn btn-coral btn-block" type="button" onclick="openJobModal()">+ Ny annons</button>
+        </div>
+        <div class="side-card safety-mini">
+          <h3>Tänk på säkerheten</h3>
+          <p>Bestäm pris och villkor i förväg. Dela inte känsliga uppgifter offentligt.</p>
+          <a href="#sakerhet">Läs säkerhetstips →</a>
+        </div>
+      </aside>
+
+      <div class="jobs-main">
+        <div class="jobs-head">
+          <div>
+            <h2>Senaste annonserna</h2>
+            <p id="jobCountText">Laddar annonser…</p>
+          </div>
+          <button class="btn btn-coral" type="button" onclick="openJobModal()">+ Lägg upp annons</button>
+        </div>
+        <div class="mobile-filters">
+          <button class="filter-btn active" data-filter="alla" type="button" onclick="setFilter('alla')">Alla</button>
+          <button class="filter-btn" data-filter="erbjuder" type="button" onclick="setFilter('erbjuder')">Behöver hjälp</button>
+          <button class="filter-btn" data-filter="soker" type="button" onclick="setFilter('soker')">Söker jobb</button>
+        </div>
+        <div class="board" id="board"><div class="loading">Laddar annonser…</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section how-section" id="sa-fungerar-det">
+    <div class="container">
+      <div class="how-head">
+        <span class="section-kicker">Enkelt från start till kontakt</span>
+        <h2 class="section-title">Så fungerar SmåjobbNu</h2>
+        <p class="section-lead">Det ska vara lätt att hitta hjälp, hitta ett småjobb och skapa en trygg första kontakt.</p>
+      </div>
+      <div class="steps">
+        <article class="step-card"><span class="step-number">1</span><h3>Skapa din profil</h3><p>Registrera dig med e-post eller Google och lägg till ditt namn och en profilbild.</p></article>
+        <article class="step-card"><span class="step-number">2</span><h3>Publicera eller sök</h3><p>Lägg upp vad du behöver hjälp med, vad du kan göra eller sök bland aktuella annonser.</p></article>
+        <article class="step-card"><span class="step-number">3</span><h3>Ta kontakt</h3><p>Kom överens om uppgift, tid, plats och ersättning. Efteråt kan ni lämna ett omdöme.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container audience-grid">
+      <article class="audience-card">
+        <span class="audience-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-user-check"></use></svg></span>
+        <h3>För dig som söker småjobb</h3>
+        <p>Få arbetslivserfarenhet, tjäna extra och hjälp människor i ditt närområde med sådant du är bra på.</p>
+        <div class="audience-list"><span>Berätta vad du kan hjälpa till med</span><span>Bygg en profil med omdömen</span><span>Hitta lokala uppdrag som passar dig</span></div>
+        <button class="btn btn-coral" type="button" onclick="openJobModal('soker')">Lägg upp att du söker jobb</button>
+      </article>
+      <article class="audience-card">
+        <span class="audience-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-home"></use></svg></span>
+        <h3>För dig som behöver hjälp</h3>
+        <p>Hitta någon för små praktiska uppgifter, djurpassning, städning, trädgård eller annan vardagshjälp.</p>
+        <div class="audience-list"><span>Beskriv uppgiften tydligt</span><span>Välj plats och kontaktväg</span><span>Se profil och betyg före kontakt</span></div>
+        <button class="btn btn-navy" type="button" onclick="openJobModal('erbjuder')">Lägg upp ett jobb</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="section about-section" id="om">
+    <div class="container about-grid">
+      <div class="about-copy">
+        <span class="section-kicker">Varför sidan finns</span>
+        <h2 class="section-title">Små möjligheter kan bli en stor början.</h2>
+        <p class="section-lead">SmåjobbNu skapades för att ungdomar och andra som vill arbeta extra lättare ska kunna hitta lokala småjobb.</p>
+        <p>Samtidigt ska den som behöver hjälp med hundrastning, barnpassning, trädgård, städning eller enklare praktiska uppgifter kunna hitta någon i närheten utan en krånglig process.</p>
+        <p>Målet är en tydlig mötesplats där människor hjälper varandra, bygger erfarenhet och skapar nya kontakter i sitt närområde.</p>
+      </div>
+      <div class="about-values">
+        <div class="value-card"><span class="value-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-globe"></use></svg></span><div><strong>Lokalt först</strong><span>Fokus ligger på uppgifter och personer nära användaren.</span></div></div>
+        <div class="value-card"><span class="value-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-up"></use></svg></span><div><strong>Låg tröskel</strong><span>Det ska gå snabbt att förstå, registrera sig och publicera.</span></div></div>
+        <div class="value-card"><span class="value-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-users"></use></svg></span><div><strong>Förtroende</strong><span>Profiler och omdömen ger mer information före en kontakt.</span></div></div>
+        <div class="value-card"><span class="value-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-lightbulb"></use></svg></span><div><strong>Erfarenhet</strong><span>Ett litet uppdrag kan bli första steget mot mer arbete.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="safety-section" id="sakerhet">
+    <div class="container safety-box">
+      <div class="safety-visual"><div class="shield"><svg class="ui-icon" aria-hidden="true"><use href="#icon-check"></use></svg></div></div>
+      <div class="safety-content">
+        <span class="section-kicker">Tryggare möten</span>
+        <h2>Säkerhet kommer först</h2>
+        <p>SmåjobbNu förmedlar kontakten, men användarna ansvarar för att kontrollera information och komma överens om tydliga villkor.</p>
+        <div class="safety-list">
+          <div><span class="check-dot"><svg class="ui-icon" aria-hidden="true"><use href="#icon-check"></use></svg></span>Bestäm uppgift, tid och ersättning i förväg.</div>
+          <div><span class="check-dot"><svg class="ui-icon" aria-hidden="true"><use href="#icon-check"></use></svg></span>Träffas på ett tryggt sätt och berätta för någon.</div>
+          <div><span class="check-dot"><svg class="ui-icon" aria-hidden="true"><use href="#icon-check"></use></svg></span>Dela inte personnummer eller känsliga uppgifter.</div>
+          <div><span class="check-dot"><svg class="ui-icon" aria-hidden="true"><use href="#icon-check"></use></svg></span>Minderåriga bör involvera en vårdnadshavare.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="container cta-box">
+      <div><h2>Redo att hitta hjälp eller ett småjobb?</h2><p>Skapa ett konto och publicera din första annons. Det tar bara några minuter.</p></div>
+      <button class="btn btn-white" type="button" onclick="openAuthModal('signup')">Skapa konto gratis</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="footer-logo" href="#top"><span class="logo-mark"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="white"/></svg></span><span class="brand-text">Småjobb<strong>Nu</strong>.se</span></a>
+        <p>En enkel mötesplats för lokala småjobb, vardagshjälp och nya möjligheter.</p>
+        <a class="btn btn-coral" href="mailto:SmåJobbNu@gmail.com">Mejla oss</a>
+      </div>
+      <div class="footer-col"><h3>Utforska</h3><a href="#annonser">Annonser</a><a href="#kategorier">Kategorier</a><a href="#sa-fungerar-det">Så fungerar det</a></div>
+      <div class="footer-col"><h3>Om tjänsten</h3><a href="#om">Varför SmåjobbNu</a><a href="#sakerhet">Säkerhet</a><a href="mailto:SmåJobbNu@gmail.com">Kontakt</a></div>
+      <div class="footer-col"><h3>Konto</h3><a href="javascript:void(0)" onclick="openAuthModal('login')">Logga in</a><a href="javascript:void(0)" onclick="openAuthModal('signup')">Skapa konto</a><a href="javascript:void(0)" onclick="openJobModal()">Lägg upp annons</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 SmåjobbNu.se</span><span>Kontakt: SmåJobbNu@gmail.com</span></div>
+  </div>
+</footer>
+
+<!-- Inloggning -->
+<div class="modal-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="modal">
+    <button class="close-btn" type="button" onclick="closeModal('authOverlay')" aria-label="Stäng">&times;</button>
+    <h2 id="authTitle">Välkommen tillbaka</h2>
+    <p class="sub">Logga in för att publicera annonser, se kontaktuppgifter och lämna betyg.</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" type="button" onclick="setAuthTab('login')">Logga in</button>
+      <button class="auth-tab" id="tabSignup" type="button" onclick="setAuthTab('signup')">Skapa konto</button>
+    </div>
+    <button class="btn btn-outline btn-block" type="button" onclick="signInWithGoogle()">Fortsätt med Google</button>
+    <div class="divider">eller med e-post</div>
+    <form id="authForm">
+      <label for="a-email">E-post</label>
+      <input id="a-email" type="email" autocomplete="email" required>
+      <label for="a-password">Lösenord</label>
+      <input id="a-password" type="password" autocomplete="current-password" required minlength="6">
+      <div id="signupExtra" style="display:none">
+        <label for="a-name">Namn</label>
+        <input id="a-name" type="text" autocomplete="name" maxlength="80">
+      </div>
+      <button class="btn btn-coral btn-block" id="authSubmitBtn" type="submit" style="margin-top:18px">Logga in</button>
+      <div class="form-msg" id="authMsg" aria-live="polite"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Ny annons -->
+<div class="modal-overlay" id="jobOverlay" role="dialog" aria-modal="true" aria-labelledby="jobTitle">
+  <div class="modal">
+    <button class="close-btn" type="button" onclick="closeModal('jobOverlay')" aria-label="Stäng">&times;</button>
+    <h2 id="jobTitle">Lägg upp en annons</h2>
+    <p class="sub">Skriv tydligt vad du behöver eller vad du kan hjälpa till med.</p>
+    <form id="jobForm">
+      <label for="f-typ">Typ av annons</label>
+      <select id="f-typ" required><option value="erbjuder">Jag behöver hjälp (erbjuder jobb)</option><option value="soker">Jag söker jobb</option></select>
+      <label for="f-titel">Rubrik</label>
+      <input id="f-titel" type="text" placeholder="T.ex. Hjälp att måla staket" required maxlength="60">
+      <label for="f-beskrivning">Beskrivning</label>
+      <textarea id="f-beskrivning" placeholder="Beskriv uppgiften, ungefärlig tid och annan viktig information." maxlength="400"></textarea>
+      <label for="f-kategori">Kategori</label>
+      <input id="f-kategori" type="text" placeholder="T.ex. Trädgård, barnpassning, städ" maxlength="60">
+      <label for="f-plats">Plats</label>
+      <input id="f-plats" type="text" placeholder="T.ex. Malmö" required maxlength="80">
+      <label for="f-kontakt">Kontakt (e-post eller telefon)</label>
+      <input id="f-kontakt" type="text" placeholder="Hur når man dig?" required maxlength="120">
+      <button class="btn btn-coral btn-block" type="submit" style="margin-top:18px">Publicera annons</button>
+      <div class="form-msg" id="jobMsg" aria-live="polite"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Profil -->
+<div class="modal-overlay" id="profileOverlay" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+  <div class="modal">
+    <button class="close-btn" type="button" onclick="closeModal('profileOverlay')" aria-label="Stäng">&times;</button>
+    <h2 id="profileTitle">Min profil</h2>
+    <p class="sub">En tydlig profil gör det enklare för andra att känna förtroende.</p>
+    <div class="avatar-upload">
+      <div class="avatar-large" id="profileAvatarPreview">?</div>
+      <div><input type="file" id="avatarInput" accept="image/*" hidden onchange="uploadAvatar(event)"><button class="btn btn-outline" type="button" onclick="document.getElementById('avatarInput').click()">Byt profilbild</button></div>
+    </div>
+    <label for="p-name">Namn</label>
+    <input id="p-name" type="text" maxlength="80">
+    <div class="profile-rating" id="profileRatingText"></div>
+    <button class="btn btn-coral btn-block" type="button" style="margin-top:18px" onclick="saveProfile()">Spara profil</button>
+    <button class="btn btn-outline btn-block" type="button" style="margin-top:10px" onclick="signOut()">Logga ut</button>
+    <div class="form-msg" id="profileMsg" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- Betyg -->
+<div class="modal-overlay" id="ratingOverlay" role="dialog" aria-modal="true" aria-labelledby="ratingTitle">
+  <div class="modal">
+    <button class="close-btn" type="button" onclick="closeModal('ratingOverlay')" aria-label="Stäng">&times;</button>
+    <h2 id="ratingTitle">Lämna betyg</h2>
+    <p class="sub" id="ratingTargetText"></p>
+    <div class="star-picker" id="starPicker" aria-label="Välj betyg från 1 till 5"><span data-v="1" aria-label="1 av 5">1</span><span data-v="2" aria-label="2 av 5">2</span><span data-v="3" aria-label="3 av 5">3</span><span data-v="4" aria-label="4 av 5">4</span><span data-v="5" aria-label="5 av 5">5</span></div>
+    <label for="r-kommentar">Kommentar (valfritt)</label>
+    <textarea id="r-kommentar" maxlength="300"></textarea>
+    <button class="btn btn-coral btn-block" type="button" style="margin-top:18px" onclick="submitRating()">Skicka betyg</button>
+    <div class="form-msg" id="ratingMsg" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- Annonsdetaljer -->
+<div class="modal-overlay" id="detailsOverlay" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+  <div class="modal modal-wide">
+    <button class="close-btn" type="button" onclick="closeModal('detailsOverlay')" aria-label="Stäng">&times;</button>
+    <div id="detailsContent"><h2 id="detailsTitle">Annons</h2></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://mwakafxekblqnqjlsbeh.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_twQfclAmvvdpJkVQYF1anA_SQ_8q2r3";
+
+  let supabase = null;
+  let initError = null;
+  let currentUser = null;
+  let currentProfile = null;
+  let currentFilter = 'alla';
+  let authMode = 'login';
+  let selectedStars = 0;
+  let ratingTarget = null;
+  let allJobs = [];
+  let currentRatingsMap = {};
+
+  try{
+    if(!window.supabase) throw new Error('Kunde inte ladda databaskopplingen. Kontrollera internetanslutningen och försök igen.');
+    supabase = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  }catch(error){
+    initError = error.message;
+  }
+
+  function escapeHtml(value){
+    const div = document.createElement('div');
+    div.textContent = value == null ? '' : String(value);
+    return div.innerHTML;
+  }
+
+  function safeImageUrl(value){
+    if(!value) return '';
+    try{
+      const parsed = new URL(String(value),window.location.href);
+      return ['http:','https:'].includes(parsed.protocol) ? parsed.href : '';
+    }catch(_error){ return ''; }
+  }
+
+  function initials(name){
+    if(!name) return '?';
+    return String(name).trim().split(/\s+/).filter(Boolean).map(word=>word[0]).slice(0,2).join('').toUpperCase() || '?';
+  }
+
+  function starsHtml(avg){
+    const number = Number(avg);
+    if(!number) return '<span class="stars">Inga betyg än</span>';
+    return `<span class="stars">${number.toFixed(1)} av 5</span>`;
+  }
+
+  function formatDate(value){
+    if(!value) return '';
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? '' : date.toLocaleDateString('sv-SE',{day:'numeric',month:'short'});
+  }
+
+  function setMenuState(open){
+    const menu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('menuBackdrop');
+    const toggle = document.getElementById('menuToggle');
+    if(!menu || !backdrop || !toggle) return;
+    menu.classList.toggle('open',open);
+    backdrop.classList.toggle('open',open);
+    toggle.classList.toggle('active',open);
+    toggle.setAttribute('aria-expanded',String(open));
+    toggle.setAttribute('aria-label',open?'Stäng meny':'Öppna meny');
+    menu.setAttribute('aria-hidden',String(!open));
+    backdrop.setAttribute('aria-hidden',String(!open));
+    document.body.classList.toggle('menu-open',open);
+  }
+
+  function toggleMainMenu(){
+    setMenuState(!document.getElementById('mobileMenu').classList.contains('open'));
+  }
+
+  function closeMainMenu(){ setMenuState(false); }
+
+  function syncBodyLock(){
+    const modalOpen = Boolean(document.querySelector('.modal-overlay.open'));
+    document.body.classList.toggle('modal-open',modalOpen);
+  }
+
+  function openModal(id){
+    closeMainMenu();
+    const overlay = document.getElementById(id);
+    if(!overlay) return;
+    overlay.classList.add('open');
+    syncBodyLock();
+    const firstInput = overlay.querySelector('input:not([type="file"]),select,textarea,button');
+    window.setTimeout(()=>firstInput?.focus(),80);
+  }
+
+  function closeModal(id){
+    document.getElementById(id)?.classList.remove('open');
+    syncBodyLock();
+  }
+
+  document.getElementById('menuToggle').addEventListener('click',(event)=>{
+    event.preventDefault();
+    event.stopPropagation();
+    toggleMainMenu();
+  });
+  document.getElementById('menuClose').addEventListener('click',closeMainMenu);
+  document.getElementById('menuBackdrop').addEventListener('click',closeMainMenu);
+  document.querySelectorAll('[data-menu-close]').forEach(link=>link.addEventListener('click',closeMainMenu));
+  window.addEventListener('resize',()=>{ if(window.innerWidth>900) closeMainMenu(); });
+
+  document.querySelectorAll('.modal-overlay').forEach(overlay=>{
+    overlay.addEventListener('click',event=>{
+      if(event.target===overlay) closeModal(overlay.id);
+    });
+  });
+
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Escape') return;
+    const openModalElement = document.querySelector('.modal-overlay.open');
+    if(openModalElement) closeModal(openModalElement.id);
+    else closeMainMenu();
+  });
+
+  async function refreshSession(){
+    if(!supabase) return;
+    const {data:{session}} = await supabase.auth.getSession();
+    currentUser = session?.user || null;
+    if(currentUser) await loadProfile();
+    else currentProfile = null;
+    renderAuthArea();
+    applyJobFilters();
+  }
+
+  if(supabase){
+    supabase.auth.onAuthStateChange((_event,session)=>{
+      currentUser = session?.user || null;
+      if(currentUser){
+        window.setTimeout(async()=>{ await loadProfile(); renderAuthArea(); applyJobFilters(); },0);
+      }else{
+        currentProfile = null;
+        renderAuthArea();
+        applyJobFilters();
+      }
+    });
+  }
+
+  function renderAuthArea(){
+    const desktop = document.getElementById('desktopAuthArea');
+    const mobile = document.getElementById('menuAuthArea');
+    const mobileAccount = document.getElementById('mobileAccountButton');
+    if(!desktop || !mobile || !mobileAccount) return;
+
+    if(!currentUser){
+      desktop.innerHTML = `<button class="btn header-login" type="button" onclick="openAuthModal('login')">Logga in</button><button class="btn btn-coral" type="button" onclick="openJobModal()">+ Lägg upp annons</button>`;
+      mobile.innerHTML = `<button class="btn btn-navy" type="button" onclick="openAuthModal('login')">Logga in</button><button class="btn btn-coral" type="button" onclick="openAuthModal('signup')">Skapa konto</button>${initError ? `<div class="form-msg">${escapeHtml(initError)}</div>` : ''}`;
+      mobileAccount.textContent = 'Logga in';
+      mobileAccount.onclick = ()=>openAuthModal('login');
+      return;
+    }
+
+    const name = currentProfile?.full_name || currentUser.email || 'Användare';
+    const avatar = safeImageUrl(currentProfile?.avatar_url);
+    const avatarHtml = avatar ? `<img src="${escapeHtml(avatar)}" alt="">` : initials(name);
+    desktop.innerHTML = `<button class="header-user" type="button" onclick="openProfileModal()"><span class="avatar-circle">${avatarHtml}</span><span>${escapeHtml(name.split('@')[0])}</span></button><button class="btn btn-coral" type="button" onclick="openJobModal()">+ Lägg upp annons</button>`;
+    mobile.innerHTML = `<div class="menu-user-info">Inloggad som<br><strong>${escapeHtml(name)}</strong></div><button class="btn btn-navy" type="button" onclick="openProfileModal()">Min profil</button><button class="btn btn-outline" type="button" onclick="signOut()">Logga ut</button>`;
+    mobileAccount.textContent = 'Profil';
+    mobileAccount.onclick = ()=>openProfileModal();
+  }
+
+  function openAuthModal(mode='login'){
+    closeMainMenu();
+    setAuthTab(mode);
+    const msg = document.getElementById('authMsg');
+    msg.textContent = initError || '';
+    const modal = document.querySelector('#authOverlay .modal');
+    if(modal) modal.scrollTop = 0;
+    openModal('authOverlay');
+  }
+
+  function setAuthTab(mode){
+    authMode = mode;
+    document.getElementById('tabLogin').classList.toggle('active',mode==='login');
+    document.getElementById('tabSignup').classList.toggle('active',mode==='signup');
+    document.getElementById('signupExtra').style.display = mode==='signup'?'block':'none';
+    document.getElementById('authSubmitBtn').textContent = mode==='signup'?'Skapa konto':'Logga in';
+    document.getElementById('authTitle').textContent = mode==='signup'?'Skapa konto':'Välkommen tillbaka';
+    document.getElementById('a-password').setAttribute('autocomplete',mode==='signup'?'new-password':'current-password');
+  }
+
+  document.getElementById('authForm').addEventListener('submit',async event=>{
+    event.preventDefault();
+    const msg = document.getElementById('authMsg');
+    if(initError || !supabase){ msg.textContent = initError || 'Inloggningen kunde inte startas.'; return; }
+    const email = document.getElementById('a-email').value.trim();
+    const password = document.getElementById('a-password').value;
+    msg.textContent = 'Ett ögonblick…';
+
+    if(authMode==='signup'){
+      const fullName = document.getElementById('a-name').value.trim();
+      const {error} = await supabase.auth.signUp({email,password,options:{data:{full_name:fullName}}});
+      if(error){ msg.textContent = error.message; return; }
+      msg.textContent = 'Konto skapat! Kontrollera din mejl om bekräftelse krävs.';
+    }else{
+      const {error} = await supabase.auth.signInWithPassword({email,password});
+      if(error){ msg.textContent = error.message; return; }
+    }
+
+    await refreshSession();
+    if(currentUser){
+      closeModal('authOverlay');
+      document.getElementById('authForm').reset();
+    }
+  });
+
+  async function signInWithGoogle(){
+    const msg = document.getElementById('authMsg');
+    if(initError || !supabase){ msg.textContent = initError || 'Google-inloggningen kunde inte startas.'; return; }
+    const redirectTo = window.location.origin + window.location.pathname;
+    const {error} = await supabase.auth.signInWithOAuth({provider:'google',options:{redirectTo}});
+    if(error) msg.textContent = error.message;
+  }
+
+  async function signOut(){
+    closeMainMenu();
+    if(!supabase) return;
+    await supabase.auth.signOut();
+    closeModal('profileOverlay');
+    await refreshSession();
+  }
+
+  async function loadProfile(){
+    if(!currentUser || !supabase) return;
+    const {data,error} = await supabase.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();
+    if(!error) currentProfile = data;
+  }
+
+  async function openProfileModal(){
+    closeMainMenu();
+    if(!currentUser){ openAuthModal('login'); return; }
+    await loadProfile();
+    document.getElementById('p-name').value = currentProfile?.full_name || '';
+    const preview = document.getElementById('profileAvatarPreview');
+    const avatar = safeImageUrl(currentProfile?.avatar_url);
+    preview.innerHTML = avatar ? `<img src="${escapeHtml(avatar)}" alt="Profilbild">` : initials(currentProfile?.full_name || currentUser.email);
+    const {data} = await supabase.from('profil_betyg').select('*').eq('rated_id',currentUser.id).maybeSingle();
+    document.getElementById('profileRatingText').textContent = data ? `Ditt betyg: ${data.snittbetyg} av 5 (${data.antal_betyg} omdömen)` : 'Du har inga betyg än.';
+    document.getElementById('profileMsg').textContent = '';
+    openModal('profileOverlay');
+  }
+
+  async function saveProfile(){
+    const msg = document.getElementById('profileMsg');
+    if(!currentUser || !supabase){ msg.textContent = 'Du måste vara inloggad.'; return; }
+    const fullName = document.getElementById('p-name').value.trim();
+    if(!fullName){ msg.textContent = 'Skriv ditt namn.'; return; }
+    msg.textContent = 'Sparar…';
+    const {error} = await supabase.from('profiles').upsert({id:currentUser.id,full_name:fullName},{onConflict:'id'});
+    if(error){ msg.textContent = 'Kunde inte spara profilen.'; return; }
+    await loadProfile();
+    renderAuthArea();
+    msg.textContent = 'Profilen är sparad.';
+    loadJobs();
+  }
+
+  async function uploadAvatar(event){
+    const file = event.target.files?.[0];
+    if(!file || !currentUser || !supabase) return;
+    const msg = document.getElementById('profileMsg');
+    if(!file.type.startsWith('image/')){ msg.textContent = 'Välj en bildfil.'; return; }
+    if(file.size>5*1024*1024){ msg.textContent = 'Bilden får vara högst 5 MB.'; return; }
+    msg.textContent = 'Laddar upp bild…';
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const path = `${currentUser.id}/${Date.now()}_${safeName}`;
+    const {error:uploadError} = await supabase.storage.from('avatars').upload(path,file,{upsert:true});
+    if(uploadError){ msg.textContent = 'Kunde inte ladda upp bilden.'; return; }
+    const {data} = supabase.storage.from('avatars').getPublicUrl(path);
+    const {error:updateError} = await supabase.from('profiles').upsert({id:currentUser.id,avatar_url:data.publicUrl},{onConflict:'id'});
+    if(updateError){ msg.textContent = 'Bilden laddades upp men kunde inte kopplas till profilen.'; return; }
+    await loadProfile();
+    document.getElementById('profileAvatarPreview').innerHTML = `<img src="${escapeHtml(safeImageUrl(data.publicUrl))}" alt="Profilbild">`;
+    renderAuthArea();
+    msg.textContent = 'Profilbilden är uppdaterad.';
+    loadJobs();
+  }
+
+  function openJobModal(type){
+    closeMainMenu();
+    if(!currentUser){ openAuthModal('login'); return; }
+    document.getElementById('jobMsg').textContent = '';
+    if(type) document.getElementById('f-typ').value = type;
+    openModal('jobOverlay');
+  }
+
+  document.getElementById('jobForm').addEventListener('submit',async event=>{
+    event.preventDefault();
+    const msg = document.getElementById('jobMsg');
+    if(!currentUser || !supabase){ msg.textContent = 'Du måste vara inloggad.'; return; }
+    msg.textContent = 'Publicerar…';
+    const payload = {
+      typ:document.getElementById('f-typ').value,
+      titel:document.getElementById('f-titel').value.trim(),
+      beskrivning:document.getElementById('f-beskrivning').value.trim(),
+      kategori:document.getElementById('f-kategori').value.trim(),
+      plats:document.getElementById('f-plats').value.trim(),
+      kontakt:document.getElementById('f-kontakt').value.trim(),
+      status:'oppen',
+      user_id:currentUser.id
+    };
+    const {error} = await supabase.from('annonser').insert(payload);
+    if(error){ msg.textContent = 'Något gick fel. Försök igen.'; console.error(error); return; }
+    msg.textContent = 'Klart! Din annons är publicerad.';
+    document.getElementById('jobForm').reset();
+    window.setTimeout(()=>{ closeModal('jobOverlay'); loadJobs(); },700);
+  });
+
+  function setFilter(filter){
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn[data-filter]').forEach(button=>button.classList.toggle('active',button.dataset.filter===filter));
+    applyJobFilters();
+  }
+
+  function setCategory(category){
+    document.getElementById('searchText').value = category;
+    currentFilter = 'alla';
+    document.querySelectorAll('.filter-btn[data-filter]').forEach(button=>button.classList.toggle('active',button.dataset.filter==='alla'));
+    applyJobFilters();
+    document.getElementById('annonser').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  document.getElementById('searchForm').addEventListener('submit',event=>{
+    event.preventDefault();
+    applyJobFilters();
+    document.querySelector('.jobs-section').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
+  document.getElementById('searchText').addEventListener('input',()=>{
+    if(!document.getElementById('searchText').value.trim() && !document.getElementById('searchLocation').value.trim()) applyJobFilters();
+  });
+  document.getElementById('searchLocation').addEventListener('input',()=>{
+    if(!document.getElementById('searchText').value.trim() && !document.getElementById('searchLocation').value.trim()) applyJobFilters();
+  });
+
+  function clearSearch(){
+    document.getElementById('searchText').value = '';
+    document.getElementById('searchLocation').value = '';
+    currentFilter = 'alla';
+    document.querySelectorAll('.filter-btn[data-filter]').forEach(button=>button.classList.toggle('active',button.dataset.filter==='alla'));
+    applyJobFilters();
+  }
+
+  async function loadJobs(){
+    const board = document.getElementById('board');
+    if(initError || !supabase){
+      board.innerHTML = `<div class="empty"><strong>Kunde inte starta annonserna</strong>${escapeHtml(initError || 'Databasen kunde inte nås.')}</div>`;
+      document.getElementById('jobCountText').textContent = 'Annonserna kunde inte laddas.';
+      return;
+    }
+
+    board.innerHTML = '<div class="loading">Laddar annonser…</div>';
+    const {data,error} = await supabase.from('annonser').select('*, profiles(full_name, avatar_url)').order('created_at',{ascending:false});
+    if(error){
+      console.error(error);
+      board.innerHTML = '<div class="empty"><strong>Kunde inte hämta annonser</strong>Kontrollera databasens tabeller och säkerhetsregler.</div>';
+      document.getElementById('jobCountText').textContent = 'Annonserna kunde inte laddas.';
+      return;
+    }
+
+    allJobs = data || [];
+    const posterIds = [...new Set(allJobs.map(job=>job.user_id).filter(Boolean))];
+    currentRatingsMap = {};
+    if(posterIds.length){
+      const {data:ratingsData,error:ratingsError} = await supabase.from('profil_betyg').select('*').in('rated_id',posterIds);
+      if(!ratingsError) (ratingsData||[]).forEach(rating=>currentRatingsMap[rating.rated_id]=rating);
+    }
+    updateCounts();
+    applyJobFilters();
+  }
+
+  function updateCounts(){
+    const all = allJobs.length;
+    const help = allJobs.filter(job=>job.typ==='erbjuder').length;
+    const work = allJobs.filter(job=>job.typ==='soker').length;
+    document.getElementById('countAll').textContent = all;
+    document.getElementById('countHelp').textContent = help;
+    document.getElementById('countWork').textContent = work;
+  }
+
+  function applyJobFilters(){
+    const searchText = (document.getElementById('searchText')?.value || '').trim().toLocaleLowerCase('sv');
+    const location = (document.getElementById('searchLocation')?.value || '').trim().toLocaleLowerCase('sv');
+
+    const filtered = allJobs.filter(job=>{
+      const typeMatch = currentFilter==='alla' || job.typ===currentFilter;
+      const haystack = [job.titel,job.beskrivning,job.kategori].filter(Boolean).join(' ').toLocaleLowerCase('sv');
+      const place = String(job.plats || '').toLocaleLowerCase('sv');
+      return typeMatch && (!searchText || haystack.includes(searchText)) && (!location || place.includes(location));
+    });
+
+    const activeSearch = Boolean(searchText || location || currentFilter!=='alla');
+    document.getElementById('clearSearch').classList.toggle('visible',activeSearch);
+    const statusBits = [];
+    if(searchText) statusBits.push(`”${document.getElementById('searchText').value.trim()}”`);
+    if(location) statusBits.push(`i ${document.getElementById('searchLocation').value.trim()}`);
+    document.getElementById('searchStatus').textContent = activeSearch ? `Sökning ${statusBits.join(' ')} – ${filtered.length} träff${filtered.length===1?'':'ar'}.` : 'Visar de senaste annonserna.';
+    document.getElementById('jobCountText').textContent = `${filtered.length} annons${filtered.length===1?'':'er'} visas`;
+    renderJobs(filtered,currentRatingsMap);
+  }
+
+  function renderJobs(jobs,ratingsMap){
+    const board = document.getElementById('board');
+    if(!jobs.length){
+      board.innerHTML = `<div class="empty"><strong>Inga annonser matchade</strong>Prova en annan sökning eller bli den första att lägga upp en annons.<br><button class="btn btn-coral" type="button" style="margin-top:18px" onclick="openJobModal()">+ Lägg upp annons</button></div>`;
+      return;
+    }
+
+    board.innerHTML = jobs.map(job=>{
+      const typeClass = job.typ==='erbjuder'?'erbjuder':'soker';
+      const typeText = job.typ==='erbjuder'?'Behöver hjälp':'Söker jobb';
+      const posterName = job.profiles?.full_name || 'Okänd användare';
+      const posterAvatar = safeImageUrl(job.profiles?.avatar_url);
+      const avatarHtml = posterAvatar ? `<img src="${escapeHtml(posterAvatar)}" alt="">` : initials(posterName);
+      const rating = ratingsMap[job.user_id];
+      const canRate = Boolean(currentUser && job.user_id && currentUser.id!==job.user_id);
+      return `<article class="job-card">
+        <div class="job-top"><span class="tag ${typeClass}">${typeText}</span><span class="job-date">${escapeHtml(formatDate(job.created_at))}</span></div>
+        <div><div class="job-category">${escapeHtml(job.kategori || 'Övrigt')}</div><h3>${escapeHtml(job.titel || 'Annons')}</h3></div>
+        <p class="job-description">${escapeHtml(job.beskrivning || 'Ingen beskrivning angiven.')}</p>
+        <div class="job-meta"><span>Plats: ${escapeHtml(job.plats || 'Plats saknas')}</span></div>
+        <div class="job-bottom">
+          <div class="poster-info"><span class="avatar-circle">${avatarHtml}</span><span class="poster-text"><span class="poster-name">${escapeHtml(posterName)}</span>${starsHtml(rating?.snittbetyg)}</span></div>
+          <div class="job-actions"><button class="details-btn" type="button" data-job-id="${escapeHtml(job.id)}">Visa annons</button>${canRate?`<button class="rate-link" type="button" data-rate-job="${escapeHtml(job.id)}" data-rate-user="${escapeHtml(job.user_id)}" data-rate-name="${escapeHtml(posterName)}">Betyg</button>`:''}</div>
+        </div>
+      </article>`;
+    }).join('');
+
+    board.querySelectorAll('[data-job-id]').forEach(button=>button.addEventListener('click',()=>openJobDetails(button.dataset.jobId)));
+    board.querySelectorAll('[data-rate-job]').forEach(button=>button.addEventListener('click',()=>openRatingModal(button.dataset.rateJob,button.dataset.rateUser,button.dataset.rateName)));
+  }
+
+  function openJobDetails(jobId){
+    const job = allJobs.find(item=>String(item.id)===String(jobId));
+    if(!job) return;
+    const posterName = job.profiles?.full_name || 'Okänd användare';
+    const rating = currentRatingsMap[job.user_id];
+    const typeText = job.typ==='erbjuder'?'Behöver hjälp':'Söker jobb';
+    const typeClass = job.typ==='erbjuder'?'erbjuder':'soker';
+    const canRate = Boolean(currentUser && job.user_id && currentUser.id!==job.user_id);
+    let contactHtml;
+    if(currentUser){
+      contactHtml = `<div class="contact-box"><h3>Kontaktuppgift</h3><div class="contact-value">${escapeHtml(job.kontakt || 'Ingen kontaktuppgift angiven.')}</div></div>`;
+    }else{
+      contactHtml = `<div class="contact-box"><h3>Logga in för kontaktuppgift</h3><p>Skapa konto eller logga in för att se hur annonsören kan kontaktas.</p><button class="btn btn-navy" type="button" onclick="closeModal('detailsOverlay');openAuthModal('login')">Logga in</button></div>`;
+    }
+    document.getElementById('detailsContent').innerHTML = `
+      <span class="tag ${typeClass}">${typeText}</span>
+      <h2 id="detailsTitle" style="margin-top:12px">${escapeHtml(job.titel || 'Annons')}</h2>
+      <p class="sub">Publicerad av ${escapeHtml(posterName)} · ${escapeHtml(formatDate(job.created_at))}</p>
+      <div class="detail-grid">
+        <div class="detail-box"><span>Plats</span><strong>${escapeHtml(job.plats || 'Inte angiven')}</strong></div>
+        <div class="detail-box"><span>Kategori</span><strong>${escapeHtml(job.kategori || 'Övrigt')}</strong></div>
+        <div class="detail-box"><span>Annonsör</span><strong>${escapeHtml(posterName)}</strong></div>
+        <div class="detail-box"><span>Betyg</span><strong>${rating ? `${escapeHtml(rating.snittbetyg)} / 5 (${escapeHtml(rating.antal_betyg)} omdömen)` : 'Inga betyg än'}</strong></div>
+      </div>
+      <h3 style="font-size:1rem;color:var(--navy);margin-bottom:7px">Beskrivning</h3>
+      <p class="detail-description">${escapeHtml(job.beskrivning || 'Ingen beskrivning angiven.')}</p>
+      ${contactHtml}
+      <div class="modal-actions">${canRate?`<button class="btn btn-outline" id="detailsRateBtn" type="button">Lämna betyg</button>`:''}<button class="btn btn-soft" type="button" onclick="closeModal('detailsOverlay')">Stäng</button></div>`;
+    document.getElementById('detailsRateBtn')?.addEventListener('click',()=>{
+      closeModal('detailsOverlay');
+      openRatingModal(job.id,job.user_id,posterName);
+    });
+    openModal('detailsOverlay');
+  }
+
+  function openRatingModal(adId,ratedId,posterName){
+    if(!currentUser){ openAuthModal('login'); return; }
+    ratingTarget = {annonsId:adId,ratedId};
+    selectedStars = 0;
+    document.querySelectorAll('#starPicker span').forEach(star=>star.classList.remove('filled'));
+    document.getElementById('r-kommentar').value = '';
+    document.getElementById('ratingTargetText').textContent = `Hur var din upplevelse med ${posterName}?`;
+    document.getElementById('ratingMsg').textContent = '';
+    openModal('ratingOverlay');
+  }
+
+  document.getElementById('starPicker').addEventListener('click',event=>{
+    const star = event.target.closest('span[data-v]');
+    if(!star) return;
+    selectedStars = Number(star.dataset.v);
+    document.querySelectorAll('#starPicker span').forEach(item=>item.classList.toggle('filled',Number(item.dataset.v)<=selectedStars));
+  });
+
+  async function submitRating(){
+    const msg = document.getElementById('ratingMsg');
+    if(!selectedStars){ msg.textContent = 'Välj antal stjärnor.'; return; }
+    if(!ratingTarget || !currentUser || !supabase){ msg.textContent = 'Du måste vara inloggad.'; return; }
+    msg.textContent = 'Skickar…';
+    const payload = {annons_id:ratingTarget.annonsId,rater_id:currentUser.id,rated_id:ratingTarget.ratedId,stars:selectedStars,kommentar:document.getElementById('r-kommentar').value.trim()};
+    const {error} = await supabase.from('ratings').upsert(payload,{onConflict:'annons_id,rater_id'});
+    if(error){ msg.textContent = 'Kunde inte spara betyget.'; console.error(error); return; }
+    msg.textContent = 'Tack för ditt betyg!';
+    window.setTimeout(()=>{ closeModal('ratingOverlay'); loadJobs(); },700);
+  }
+
+  renderAuthArea();
+  if(initError){
+    document.getElementById('board').innerHTML = `<div class="empty"><strong>Kunde inte starta sidan</strong>${escapeHtml(initError)}</div>`;
+  }else{
+    refreshSession().catch(console.error).then(loadJobs).catch(error=>{
+      console.error(error);
+      document.getElementById('board').innerHTML = '<div class="empty"><strong>Kunde inte nå databasen</strong>Kontrollera internetanslutningen och försök igen.</div>';
+    });
+  }
+</script>
+</body>
+</html>
